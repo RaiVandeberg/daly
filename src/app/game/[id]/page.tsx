@@ -4,6 +4,50 @@ import Image from "next/image";
 import { Container } from "@/components/container";
 import { Label } from "./components/label";
 import { GameCard } from "@/components/gameCard";
+import { Metadata } from "next";
+
+
+interface PropsParams {
+    params: {
+        id: string
+    }
+}
+export async function generateMetadata({ params }: PropsParams): Promise<Metadata> {
+     try {
+        const response: GameProps = await fetch(`${process.env.NEXT_API_URL}/next-api/?api=game&id=${params.id}`, {
+            next: { revalidate: 60 },
+        }).then((res) => res.json())
+        .catch(()=>{
+             return {
+            title: "Descubras jogos Incirveis para se divertir"
+            }
+        })
+
+        return {
+            title: response.title,
+            description: response.description,
+            openGraph: {
+                title: response.title,
+                description: response.description,
+                
+            },
+        }
+        
+
+    } catch (error) {
+        return {
+            title: "Descubras jogos Incirveis para se divertir",
+            description: "Game not found",
+            openGraph: {
+                title: "Game not found",
+                description: "Game not found",
+                url: `${process.env.PROJECT_URL}/game/${params.id}`,
+                images: [`${process.env.PROJECT_URL}/preview.png`],
+            },
+        }
+    }
+
+}
 
 async function getData(id:string) {
 

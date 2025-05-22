@@ -1,5 +1,5 @@
-import LogoImg from "@/public/logo.svg"
-import { tree } from "next/dist/build/templates/app-page"
+import LogoImg from "../../../public/logo.svg"
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { LiaGamepadSolid } from "react-icons/lia"
@@ -21,7 +21,7 @@ export function Header(){
                 Games
                 </Link>
 
-                  <Link href={"/"}>
+                  <Link href={"/profile"}>
                 Perfil
                 </Link>
             </nav>
